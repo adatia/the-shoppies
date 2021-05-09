@@ -38,12 +38,12 @@ function App() {
 
   const getResults = async () => {
     if (searchTerm !== '') {
-      const url = `https://www.omdbapi.com/?s=${searchTerm}&apikey=${API_KEY}`;
+      const url = `https://www.omdbapi.com/?s=${searchTerm}&type=movie&apikey=${API_KEY}`;
 
       const res = await axios.get(url);
-      console.log(res);
 
       if (res?.data?.Search) {
+        const fullYet = nominations.length === 5;
         const results = res.data.Search.map((item) => {
           return {
             id: item.imdbID,
@@ -52,6 +52,7 @@ function App() {
             nominated: nominations.findIndex((nom) => {
               return nom.id === item.imdbID
             }) > -1,
+            full: fullYet,
           }
         });
 
@@ -162,12 +163,13 @@ function App() {
       year: year,
       id: 'cm' + ID,
       nominated: false,
+      full: nominations.length === 5
     };
 
     setID(ID + 1);
 
     const newLibrary = customMoviesLibrary.concat([newMovie]);
-    setCustomMoviesLibrary(newLibrary);
+    setCustomMoviesLibrary([...newLibrary]);
 
   };
 
@@ -199,7 +201,7 @@ function App() {
           </Layout.Section>
 
           <Layout.Section oneHalf>
-            <SearchResults value={searchTerm} results={searchResults} nomination={addNomination} />
+            <SearchResults value={searchTerm} results={searchResults} nomination={addNomination} nomcount={nominations.length} />
           </Layout.Section>
 
           <Layout.Section oneHalf>
@@ -208,7 +210,7 @@ function App() {
 
           <Layout.Section>
             <CustomMovies onCreate={createMovie} library={customMoviesLibrary} onDelete={deleteMovie} 
-            onNominate={addNomination}/>
+            onNominate={addNomination} nomcount={nominations.length} />
           </Layout.Section>
         </Layout>
       </Page>
