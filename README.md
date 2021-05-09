@@ -1,6 +1,6 @@
 # About The Shoppies
 
-Shopify has branched out into movie award shows! This an app to help manage movie nominations for the upcoming Shoppies :handbag:!
+Shopify has branched out into movie award shows! This an app to help manage movie nominations for the upcoming Shoppies! :handbag:
 
 ### Built With
 
